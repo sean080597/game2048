@@ -1,4 +1,4 @@
-//#include <stdafx.h>
+﻿//#include <stdafx.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
@@ -52,7 +52,7 @@ void intro(void) {
 
 	fopen_s(&file_pointer, "here.txt", "r");
 	if (file_pointer == NULL) {
-		printf("file opening error!");
+		printf("File opening error!");
 		scanf_s(" %c", &wait, 1);
 		exit(-1);
 	}
@@ -62,7 +62,8 @@ void intro(void) {
 	}
 
 	fclose(file_pointer);
-	printf("\n\ndevoloped by Cherubim :^). Enter any key to start : ");
+	//printf("\n\nDevoloped by Cherubim :^). Enter any key to start : ");
+	printf("\n\nInherited & Developed by LuuCuong :^). Enter any key to start : ");
 	scanf_s(" %c", &wait, 1);
 }
 
@@ -105,10 +106,10 @@ void DisplayBox(void) {
 
 int UserEntry(void) {
 	char selection;
-	int is_change_present = 0;
+	int is_change_present = 0;//check if it is changed or not
 
-	printf("\nenter your selection ( w, a, s, d ) : ");
-	selection = _getch();
+	printf("\nEnter your selection ( w, a, s, d, x - EXIT ) : ");
+	selection = _getch();//read input key down
 
 	if (selection == 'w')
 	{
@@ -146,7 +147,7 @@ int UserEntry(void) {
 	{
 		char wait;
 		clear();
-		printf("invalid entry! use only w, a, s, d\n\n");
+		printf("Use only w, a, s, d!!!\n\nPlease reopen game!!!");
 		scanf_s(" %c", &wait, 1);
 
 		return 0;
@@ -161,7 +162,7 @@ int UserEntry(void) {
 }
 
 int MechanismChange(int& value_1, int& value_2, int& value_3, int& value_4) {
-	int initial_values[4] = { value_1, value_2, value_3, value_4 };
+	//int initial_values[4] = { value_1, value_2, value_3, value_4 };
 	int values[4] = { value_1, value_2, value_3, value_4 };
 
 	for (int index = 1; index < 4; index++) {
@@ -226,7 +227,7 @@ int MechanismChange(int& value_1, int& value_2, int& value_3, int& value_4) {
 }
 
 int MechanismEndCheck(int value_1, int value_2, int value_3, int value_4) {
-	int initial_values[4] = { value_1, value_2, value_3, value_4 };
+	//int initial_values[4] = { value_1, value_2, value_3, value_4 };
 	int values[4] = { value_1, value_2, value_3, value_4 };
 
 	for (int index = 1; index < 4; index++) {
@@ -322,8 +323,10 @@ int GenerateRandom(void) {
 
 	if (spaces_count != 0)
 	{
+		//get value of an empty box at position which has random value from 0 to spaces_count
 		rand_number = spaces_present[rand() % spaces_count];
 
+		//devide to get which row & mod to get which col
 		box_values[rand_number / 10][rand_number % 10] = source[rand() % 2];
 	}
 
@@ -334,33 +337,34 @@ void GamePlay(void) {
 	char next = 'y';
 	int change = 1, vacancies = 16;
 
-	GenerateRandom();
+	GenerateRandom();//assign an empty box and return count empty boxes (0 - 16)
 
 	while (next == 'y')
 	{
-		clear();
+		clear();//clear screen
 
+		//equals 0 to notify Game Over, 1 to continue
 		if (change == 1)
 		{
-			vacancies = GenerateRandom();
+			vacancies = GenerateRandom();//assign an empty box and return count empty boxes (0 - 16)
 		}
 
 		else
 		{
-			printf("\nno change!\n");
+			char wait;
+			clear();
 
 			if (EndCheck() == 0)
 			{
-				char wait;
-				clear();
-				printf("GAME OVER! :(\n\nbetter luck next time\n\n");
+				printf("\nNo Change!\n");
+				printf("GAME OVER! :(\n\nBetter luck next time\n\n");
 
 				scanf_s(" %c", &wait, 1);
 				exit(0);
 			}
 		}
 
-		DisplayBox();
-		change = UserEntry();
+		DisplayBox();//show all values
+		change = UserEntry();//check if isChanged is 1 or 0 when user type
 	}
 }
